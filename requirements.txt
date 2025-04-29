@@ -7,3 +7,4 @@ shap
 xgboost
 Flask
 jupyter
+gunicorn
