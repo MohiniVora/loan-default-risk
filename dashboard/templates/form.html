@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loan Default Risk Predictor</title>
+
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 min-h-screen flex items-center justify-center">
+
+  <div class="backdrop-blur-md bg-white/10 p-10 rounded-3xl shadow-2xl w-full max-w-md border border-white/10">
+    <h2 class="text-3xl font-extrabold text-center text-white mb-10 tracking-wide">
+      Loan Default Risk Prediction
+    </h2>
+
+    <form id="predictionForm" action="/predict" method="post" class="space-y-6">
+
+      <!-- Input fields -->
+      <div>
+        <label class="block text-white font-semibold mb-2">Interest Rate</label>
+        <input type="text" name="InterestRate" required
+          class="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:text-white focus:outline-none"
+          placeholder="Enter Interest Rate">
+      </div>
+
+      <div>
+        <label class="block text-white font-semibold mb-2">Loan Term</label>
+        <input type="text" name="LoanTerm" required
+          class="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:text-white focus:outline-none"
+          placeholder="Loan Term (months)">
+      </div>
+
+      <div>
+        <label class="block text-white font-semibold mb-2">DTI Ratio</label>
+        <input type="text" name="DTIRatio" required
+          class="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:text-white focus:outline-none"
+          placeholder="Debt-to-Income Ratio">
+      </div>
+
+      <div>
+        <label class="block text-white font-semibold mb-2">Number of Credit Lines</label>
+        <input type="text" name="NumCreditLines" required
+          class="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:text-white focus:outline-none"
+          placeholder="e.g., 5">
+      </div>
+
+      <!-- Dropdown fields -->
+      <div class="relative">
+        <label class="block text-white font-semibold mb-2">Education</label>
+        <select name="Education" required
+          class="w-full px-4 py-3 rounded-lg bg-white/20 text-white focus:ring-2 focus:ring-blue-500 focus:text-white focus:outline-none appearance-none">
+          <option value="" disabled selected hidden>Select Education</option>
+          <option class="text-black" value="High School">High School</option>
+          <option class="text-black" value="Bachelor's">Bachelor's</option>
+          <option class="text-black" value="Master's">Master's</option>
+          <option class="text-black" value="PhD">PhD</option>
+        </select>
+        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white">▼</div>
+      </div>
+
+      <div class="relative">
+        <label class="block text-white font-semibold mb-2">Employment Type</label>
+        <select name="EmploymentType" required
+          class="w-full px-4 py-3 rounded-lg bg-white/20 text-white focus:ring-2 focus:ring-blue-500 focus:text-white focus:outline-none appearance-none">
+          <option value="" disabled selected hidden>Select Employment Type</option>
+          <option class="text-black" value="Full-time">Full-time</option>
+          <option class="text-black" value="Part-time">Part-time</option>
+          <option class="text-black" value="Self-employed">Self-employed</option>
+          <option class="text-black" value="Unemployed">Unemployed</option>
+        </select>
+        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white">▼</div>
+      </div>
+
+      <div class="relative">
+        <label class="block text-white font-semibold mb-2">Marital Status</label>
+        <select name="MaritalStatus" required
+          class="w-full px-4 py-3 rounded-lg bg-white/20 text-white focus:ring-2 focus:ring-blue-500 focus:text-white focus:outline-none appearance-none">
+          <option value="" disabled selected hidden>Select Marital Status</option>
+          <option class="text-black" value="Single">Single</option>
+          <option class="text-black" value="Married">Married</option>
+          <option class="text-black" value="Divorced">Divorced</option>
+        </select>
+        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white">▼</div>
+      </div>
+
+      <div class="relative">
+        <label class="block text-white font-semibold mb-2">Has Mortgage</label>
+        <select name="HasMortgage" required
+          class="w-full px-4 py-3 rounded-lg bg-white/20 text-white focus:ring-2 focus:ring-blue-500 focus:text-white focus:outline-none appearance-none">
+          <option value="" disabled selected hidden>Select</option>
+          <option class="text-black" value="Yes">Yes</option>
+          <option class="text-black" value="No">No</option>
+        </select>
+        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white">▼</div>
+      </div>
+
+      <div class="relative">
+        <label class="block text-white font-semibold mb-2">Has Dependents</label>
+        <select name="HasDependents" required
+          class="w-full px-4 py-3 rounded-lg bg-white/20 text-white focus:ring-2 focus:ring-blue-500 focus:text-white focus:outline-none appearance-none">
+          <option value="" disabled selected hidden>Select</option>
+          <option class="text-black" value="Yes">Yes</option>
+          <option class="text-black" value="No">No</option>
+        </select>
+        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white">▼</div>
+      </div>
+
+      <div class="relative">
+        <label class="block text-white font-semibold mb-2">Loan Purpose</label>
+        <select name="LoanPurpose" required
+          class="w-full px-4 py-3 rounded-lg bg-white/20 text-white focus:ring-2 focus:ring-blue-500 focus:text-white focus:outline-none appearance-none">
+          <option value="" disabled selected hidden>Select Purpose</option>
+          <option class="text-black" value="Auto">Auto</option>
+          <option class="text-black" value="Business">Business</option>
+          <option class="text-black" value="Education">Education</option>
+          <option class="text-black" value="Home">Home</option>
+          <option class="text-black" value="Other">Other</option>
+        </select>
+        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white">▼</div>
+      </div>
+
+      <div class="relative">
+        <label class="block text-white font-semibold mb-2">Has Co-Signer</label>
+        <select name="HasCoSigner" required
+          class="w-full px-4 py-3 rounded-lg bg-white/20 text-white focus:ring-2 focus:ring-blue-500 focus:text-white focus:outline-none appearance-none">
+          <option value="" disabled selected hidden>Select</option>
+          <option class="text-black" value="Yes">Yes</option>
+          <option class="text-black" value="No">No</option>
+        </select>
+        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white">▼</div>
+      </div>
+
+      <!-- Submit button -->
+      <div>
+        <input type="submit" value="Predict"
+          class="w-full py-3 mt-4 bg-gradient-to-r from-cyan-400 to-blue-600 hover:from-blue-600 hover:to-cyan-400 text-white rounded-lg font-bold shadow-md hover:shadow-xl transition duration-300" />
+      </div>
+
+    </form>
+
+    {% if prediction %}
+    <div id="predictionModal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 animate-fadeIn">
+      <div class="bg-white/10 backdrop-blur-md p-8 rounded-2xl shadow-2xl text-center animate-zoomIn">
+        <h3 class="text-2xl font-extrabold text-white">{{ prediction }}</h3>
+      </div>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        document.getElementById('predictionModal').style.display = 'none';
+        document.getElementById('predictionForm').reset();
+      }, 3000);
+    </script>
+    {% endif %}
+
+  </div>
+
+  <!-- Animations + Input Autofill Fix -->
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    .animate-zoomIn {
+      animation: zoomIn 0.5s ease-out forwards;
+    }
+
+    /* Autofill fix and typing visibility */
+    input, select, textarea {
+      color: white !important;
+      background-color: rgba(255,255,255,0.05) !important;
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    select:-webkit-autofill {
+      -webkit-text-fill-color: white !important;
+      box-shadow: 0 0 0px 1000px rgba(255,255,255,0.05) inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+    select option {
+      color: black;
+      background-color: white;
+    }
+  </style>
+
+</body>
+</html>
