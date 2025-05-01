@@ -147,6 +147,15 @@
       </div>
     </div>
 
+    {% if tips %}
+      <ul class="mt-4 text-white text-left list-disc list-inside space-y-1">
+        {% for tip in tips %}
+          <li>{{ tip }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+
     <script>
       setTimeout(() => {
         document.getElementById('predictionModal').style.display = 'none';

@@ -48,15 +48,30 @@ def predict():
         input_processed = preprocessor.transform(input_df)
         
         # Predict
-        prediction = model.predict(input_processed)[0]
-        
-        # Map prediction to text
-        if prediction == 1:
-            result = "⚠️ High Risk: Likely to Default"
-        else:
-            result = "✅ Low Risk: Likely to Repay"
+        proba = model.predict_proba(input_processed)[0][1]  
+        # Class 1: Default
+        risk_percent = round(proba * 100, 2)
 
-        return render_template('form.html', prediction=result)
+        # Determine prediction message
+        if proba >= 0.5:
+            result = f"⚠️ High Risk: Likely to Default ({risk_percent}% risk)"
+        else:
+            result = f"✅ Low Risk: Likely to Repay ({100 - risk_percent}% confidence)"
+
+        # Personalized tips
+        tips = []
+        if float(request.form['DTIRatio']) > 0.4:
+            tips.append("💡 Try lowering your DTI Ratio below 0.4 to reduce risk.")
+        if float(request.form['InterestRate']) > 15:
+            tips.append("💡 A lower interest rate can improve approval chances.")
+        if request.form['EmploymentType'] == "Unemployed":
+            tips.append("💡 Stable income can increase approval probability.")
+        if int(request.form['NumCreditLines']) <= 2:
+            tips.append("💡 Building a longer credit history may help.")
+
+        # Combine
+        return render_template("form.html", prediction=result, tips=tips)
+                
 
 # Run the app
 if __name__ == '__main__':
