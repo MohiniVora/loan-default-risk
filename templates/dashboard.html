@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loan Risk Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+  <div class="max-w-4xl mx-auto p-8">
+    <h1 class="text-4xl font-bold text-center mb-8">📊 Loan Risk Dashboard</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+      <div class="bg-gray-800 p-6 rounded-xl shadow-md">
+        <h2 class="text-lg font-semibold mb-2">🔢 Total Predictions</h2>
+        <p class="text-2xl">{{ total }}</p>
+      </div>
+
+      <div class="bg-gray-800 p-6 rounded-xl shadow-md">
+        <h2 class="text-lg font-semibold mb-2">📉 High Risk Predictions</h2>
+        <p class="text-2xl text-red-400">{{ high_risk }}</p>
+      </div>
+
+      <div class="bg-gray-800 p-6 rounded-xl shadow-md">
+        <h2 class="text-lg font-semibold mb-2">📈 Low Risk Predictions</h2>
+        <p class="text-2xl text-green-400">{{ low_risk }}</p>
+      </div>
+
+      <div class="bg-gray-800 p-6 rounded-xl shadow-md">
+        <h2 class="text-lg font-semibold mb-2">💸 Avg Interest Rate</h2>
+        <p class="text-2xl">{{ avg_interest }}%</p>
+      </div>
+
+      <div class="bg-gray-800 p-6 rounded-xl shadow-md">
+        <h2 class="text-lg font-semibold mb-2">📊 Avg DTI Ratio</h2>
+        <p class="text-2xl">{{ avg_dti }}</p>
+      </div>
+    </div>
+
+    <div class="bg-gray-800 p-6 rounded-xl shadow-md">
+      <h2 class="text-lg font-semibold mb-4">🧠 Risk Distribution</h2>
+      {{ pie_chart | safe }}
+    </div>
+
+    <div class="mt-8 text-center">
+      <a href="/" class="text-blue-400 underline hover:text-blue-300">🔙 Back to Prediction Form</a>
+    </div>
+  </div>
+</body>
+</html>
